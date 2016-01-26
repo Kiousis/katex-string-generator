@@ -9,8 +9,100 @@ and open the template in the editor.
         <title>KATEX HTML string generator</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+
+        <script>
+
+            function render() {
+                var equationInput = document.getElementById('inputID').value;
+                try {
+                    katex.render(equationInput, results, {displayMode: true});
+                    changeClass(true);
+
+                    var html = katex.renderToString(equationInput, {displayMode: true, throwOnError: false});
+                    var escapedHtml = html.replace(/&/g, '&amp;')
+                            .replace(/>/g, '&gt;')
+                            .replace(/</g, '&lt;')
+                            .replace(/"/g, '&quot;')
+                            .replace(/'/g, '&apos;');
+                    document.getElementById("htmlResults").innerHTML = escapedHtml;
+
+                } catch (err) {
+                    changeClass(false);
+                    document.getElementById("htmlResults").innerHTML = "  ";
+                }
+            }
+
+            function changeClass(flag) {
+                el = document.getElementById('inputDiv');
+
+                if (flag) {
+                    el.classList.remove("has-error");
+                    el.classList.add("has-success");
+                } else {
+                    el.classList.remove(".has-success");
+                    el.classList.add("has-error");
+                }
+            }
+
+        </script>
+
     </head>
     <body>
-        <div>TODO write content</div>
+        <nav class="navbar  navbar-default">
+            <div class="container">
+
+                <div id="navbar" class="">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">Examples</a></li>
+                        <li><a href="#contact">About</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        
+
+
+
+        <div class="container">
+            
+                    <div class="page-header">
+  <h1>KATEX HTML string generator <small>alfa</small></h1>
+</div>
+<form class="form-horizontal">
+     <div class="form-group">
+     <label>LaTeX: </label>
+            <div class="has-success" id="inputDiv">
+                <input class="form-control input-lg has-warning" name="equation" id="inputID" value="x^2" onkeyup="render()">
+            </div>
+     </div>
+</form>
+            <br>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="results"> </div>  
+                </div>
+            </div>
+
+            <br>
+            <div class="panel panel-info">
+                <div class="panel-heading">Copy the HTML code</div>
+                <div class="panel-body">
+                    <pre id="htmlResults"></pre>
+                </div>
+            </div>
+            <div><p>* Add also the following line inside &lt;head&gt; tag of html page</p>
+                <pre>&lt;link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css"&gt; </pre>
+            </div>
+
+        </div>
     </body>
+
 </html>
