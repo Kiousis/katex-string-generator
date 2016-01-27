@@ -18,11 +18,14 @@ to do ...
 
             function render() {
                 var equationInput = document.getElementById('inputID').value;
+
+                var mode = !document.getElementById('displayMode').checked;
+
                 try {
-                    katex.render(equationInput, results, {displayMode: true});
+                    katex.render(equationInput, results, {displayMode: mode});
                     changeClass(true);
 
-                    var html = katex.renderToString(equationInput, {displayMode: true, throwOnError: false});
+                    var html = katex.renderToString(equationInput, {displayMode: mode, throwOnError: false});
                     var escapedHtml = html.replace(/&/g, '&amp;')
                             .replace(/>/g, '&gt;')
                             .replace(/</g, '&lt;')
@@ -48,6 +51,7 @@ to do ...
                 }
             }
 
+            window.onload = render;
         </script>
 
     </head>
@@ -66,8 +70,6 @@ to do ...
         </nav>
 
 
-
-
         <div class="container">
 
             <div class="page-header">
@@ -81,6 +83,11 @@ to do ...
                     </div>
                 </div>
             </form>
+            <div class="checkbox">
+                <label onclick="render()">
+                    <input type="checkbox" id="displayMode"> display mode (check for inline mode)
+                </label>
+            </div>
             <br>
             <br>
             <div class="panel panel-default">
